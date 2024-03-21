@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 import MainContainer from './Component/MainContainer';
 import VideoContainer from './Component/VideoContainer';
 import Head from './Component/Head';
@@ -9,12 +9,12 @@ import NarrowSideContainer from './Component/NarrowSideContainer';
 import { Provider } from 'react-redux';
 import appStore from './Utils/appStore';
 
-const appRouter = createBrowserRouter([
+const appRouter = createHashRouter([
   {
     path: "/",
     element: <VideoContainer />
   }, {
-    path: "/WatchPage",
+    path: "WatchPage",
     element: <WatchPage />
   }
 ])
