@@ -69,7 +69,7 @@ const VideoContainer = () => {
     <div className='flex flex-col  '>
       {/* Top sliding buttons */}
 
-      <div className=' lg:h-10 flex flex-row items-center  lg:mx-auto flex flex-wrap  justify-start pl-6  '>
+      <div className='overflow-x-auto  h-10 w-72 mx-auto lg:h-10 flex flex-row  lg:mx-auto lg:w-full lg:justify-center md:w-3/4 md:overflow-x-auto md:justify-center'>
         {
           sideScrollBarData.map((data) => {
             return <button className='text-black border border-white bg-slate-500 lg:px-2 lg:mx-2 hover:bg-slate-300 hover:shadow-xl lg:rounded-lg mx-1 px-1 my-1 rounded-md ' onClick={() => handleOnClickCategoryButton(data)}>
