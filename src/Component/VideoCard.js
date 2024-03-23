@@ -10,6 +10,9 @@ const VideoCard = ({ info }) => {
 
   const handleOnVideoCardClick = (data) => {
     dispatch(videoContent(data));
+    console.log("Data obj me store horha ",data.id.videoId);
+    localStorage.setItem('videoData', data.id.videoId);
+
 
     // console.log(data);
   }

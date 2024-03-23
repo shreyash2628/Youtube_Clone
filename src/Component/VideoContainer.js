@@ -36,8 +36,8 @@ const VideoContainer = () => {
 
     const data = await fetch(url, optionsRapidApiYoutubeV3);
     const jsonData = await data.json();
-    console.log("Idr aaya hu me ");
-    console.log("jsonData for specific searched", jsonData);
+   // console.log("Idr aaya hu me ");
+   // console.log("jsonData for specific searched", jsonData);
     SetVideos(jsonData.items);
   }
 
@@ -46,13 +46,13 @@ const VideoContainer = () => {
 
     const data = await fetch(YOUTUBE_VIDEOS_API, optionsRapidApiYoutubeV3);
     const jsonData = await data.json();
-    console.log("json data for default", jsonData.items);
+   // console.log("json data for default", jsonData.items);
 
     const filteredShortsAndReels = jsonData.items.filter((data) => {
       return data.snippet.description !== '';
   })
 
-    console.log("Filtered Data",filteredShortsAndReels);
+   // console.log("Filtered Data",filteredShortsAndReels);
     SetVideos(filteredShortsAndReels);
   }
 
@@ -69,11 +69,12 @@ const VideoContainer = () => {
     <div className='flex flex-col  '>
       {/* Top sliding buttons */}
 
-      <div className='overflow-x-auto  h-10 w-72 mx-auto lg:h-10 flex flex-row  lg:mx-auto lg:w-full lg:justify-center md:w-3/4 md:overflow-x-auto md:justify-center'>
+      <div className='overflow-x-auto h-10 w-72 mx-auto lg:h-10 flex flex-row  lg:mx-auto lg:w-full lg:justify-center md:w-3/4 md:overflow-x-auto md:justify-center'>
         {
-          sideScrollBarData.map((data) => {
-            return <button className='text-black border border-white bg-slate-500 lg:px-2 lg:mx-2 hover:bg-slate-300 hover:shadow-xl lg:rounded-lg mx-1 px-1 my-1 rounded-md ' onClick={() => handleOnClickCategoryButton(data)}>
+          sideScrollBarData.map((data,index) => {
+            return <button  key={index} className='text-black border border-white bg-slate-500 lg:px-2 lg:mx-2 hover:bg-slate-300 hover:shadow-xl lg:rounded-lg mx-1 px-1 my-1 rounded-md ' onClick={() => handleOnClickCategoryButton(data)}>
               {data}
+             
             </button>
           })
         }
@@ -82,7 +83,7 @@ const VideoContainer = () => {
 
       </div>
 
-      <div className='flex flex-wrap lg:w-auto lg:mx-12 mx-10 my-2 bg-black'>
+      <div className='  flex flex-wrap lg:w-auto lg:mx-auto mx-10 my-2 bg-black'>
         {
           Videos === null ? <>
           {
