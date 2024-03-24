@@ -4,7 +4,7 @@ import VideoCard from './VideoCard';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { optionsRapidApiYoutubeV3 } from '../Utils/Constants';
-import SideScrollBar from './SideScrollBar';
+import ErrorComponent from './ErrorComponent';
 import ShimmerUi from './ShimmerUi';
 
 const VideoContainer = () => {
@@ -36,8 +36,7 @@ const VideoContainer = () => {
 
     const data = await fetch(url, optionsRapidApiYoutubeV3);
     const jsonData = await data.json();
-   // console.log("Idr aaya hu me ");
-   // console.log("jsonData for specific searched", jsonData);
+
     SetVideos(jsonData.items);
   }
 
@@ -46,14 +45,20 @@ const VideoContainer = () => {
 
     const data = await fetch(YOUTUBE_VIDEOS_API, optionsRapidApiYoutubeV3);
     const jsonData = await data.json();
-   // console.log("json data for default", jsonData.items);
+    if (jsonData && jsonData.items) {
+      const filteredShortsAndReels = jsonData.items.filter((data) => {
+        return data.snippet.description !== '';
+      });
 
-    const filteredShortsAndReels = jsonData.items.filter((data) => {
-      return data.snippet.description !== '';
-  })
+      SetVideos(filteredShortsAndReels);
+      localStorage.setItem('APILIMIT',null);
+    } else if (jsonData.message = "You have exceeded the DAILY quota for Request on your current plan, BASIC. Upgrade your plan at https://rapidapi.com/ytdlfree/api/youtube-v31") {
+      SetVideos('error');
+     // alert('API request limit exceeded. Please upgrade your plan.');
 
-   // console.log("Filtered Data",filteredShortsAndReels);
-    SetVideos(filteredShortsAndReels);
+      localStorage.setItem('APILIMIT','Exceeded');
+
+    };
   }
 
   const handleOnClickCategoryButton = async (data) => {
@@ -71,10 +76,10 @@ const VideoContainer = () => {
 
       <div className='overflow-x-auto h-10 w-72 mx-auto lg:h-10 flex flex-row  lg:mx-auto lg:w-full lg:justify-center md:w-3/4 md:overflow-x-auto md:justify-center'>
         {
-          sideScrollBarData.map((data,index) => {
-            return <button  key={index} className='text-black border border-white bg-slate-500 lg:px-2 lg:mx-2 hover:bg-slate-300 hover:shadow-xl lg:rounded-lg mx-1 px-1 my-1 rounded-md ' onClick={() => handleOnClickCategoryButton(data)}>
+          sideScrollBarData.map((data, index) => {
+            return <button key={index} className='text-black border border-white bg-slate-500 lg:px-2 lg:mx-2 hover:bg-slate-300 hover:shadow-xl lg:rounded-lg mx-1 px-1 my-1 rounded-md ' onClick={() => handleOnClickCategoryButton(data)}>
               {data}
-             
+
             </button>
           })
         }
@@ -85,21 +90,19 @@ const VideoContainer = () => {
 
       <div className='  flex flex-wrap lg:w-auto lg:mx-auto mx-10 my-2 bg-black'>
         {
-          Videos === null ? <>
-          {
-          Array.from({ length: 50 }).map((_, index) => (
-          <ShimmerUi key={index} />
-        ))
-        
+          Videos === null ? (
+            <>
+              {Array.from({ length: 50 }).map((_, index) => (
+                <ShimmerUi key={index} />
+              ))}
+            </>
+          ) : Videos === 'error' ? (
+            <ErrorComponent /> // Render ErrorComponent when Videos is 'error'
+          ) : (
+            Videos.map((data) => <VideoCard info={data} />)
+          )
         }
-          
-          </> :
-            Videos.map((data) => (
 
-              <VideoCard info={data} />
-
-            ))
-        }
       </div>
 
     </div>
