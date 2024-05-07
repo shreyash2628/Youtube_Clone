@@ -8,18 +8,11 @@ const[search,setSearch]=useState();
 
 const dispatch = useDispatch();
 
-    const handleSearchButton = ()=>{
-        console.log("handleSearchButton  clicked");
-        localStorage.setItem("searchedValue", search);
-
-    dispatch(searchContent(search));
-    console.log("After Dispatch  ");
-
+    const handleSearchButton = () => {
+        dispatch(searchContent(search));
     }
 
-
     const handleOnClickMenuButton = () => {
-        console.log("Menu btn clicked");
         handleOpenSideContainer();
     }
     return (
@@ -31,13 +24,12 @@ const dispatch = useDispatch();
                 <div className='HamburgerMenu flex flex-row h-12  ' >
                     <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Hamburger_icon_white.svg/1200px-Hamburger_icon_white.svg.png' className='h-full p-2' />
                     <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkLNtmqUZQkUcyQl_dAIiKiyEqJWbrw8PlJg&usqp=CAU' className='h-full flex items-center ml-2 ' />
-                    {/* <h1 className='text-red-500'>YOUTUBE</h1> */}
                 </div>
             </div>
 
 
             <div className="h-12 col-span-1  flex items-center mt-1" >
-                <input className='w-36 lg:w-full sm:w-96 sm:py-1 lg:pl-2 lg:py-1 rounded-l-full ' placeholder='search' value={search} onChange={(e)=>setSearch(e.target.value)}></input>
+                <input className='w-36 lg:w-full sm:w-96 sm:py-1 lg:pl-2 lg:py-1 rounded-l-full ' placeholder='search' value={search} onChange={(e) => setSearch(e.target.value)}></input>
                 <button className='bg-white border lg:py-1 sm:py-1 sm:px-1 border-black border-2 rounded-r-full lg:px-2' onClick={handleSearchButton}  >🔍</button>
             </div>
 

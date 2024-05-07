@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { YOUTUBE_VIDEOS_API } from '../Utils/Constants';
 import VideoCard from './VideoCard';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { optionsRapidApiYoutubeV3 } from '../Utils/Constants';
 import ErrorComponent from './ErrorComponent';
@@ -12,37 +11,25 @@ const VideoContainer = () => {
   const [sideScrollBarData] = useState(['All', 'Music', 'Sports', 'Trading', 'Games', 'Stock Market', 'Bollywood', 'Podcasts', 'Public Speaking', 'Comedy', 'Fitness', 'Cooking', 'Dance']);
   const [Videos, SetVideos] = useState([]);
 
-  const [searchContent, setSearchContent] = useState('');
-  //subscribing to the store using selector
   const searchValue = useSelector((store) => store.search.items);
-  // setSearchContent(searchValue);
   useEffect(() => {
     SetVideos(null);
-
     getVideos();
-    setSearchContent(searchValue);
-
     if (searchValue !== '') {
-      getSpecificSearchedVideo(searchContent);
-      console.log("dekhte hai bug idr hai shyd", searchContent);
+      getSpecificSearchedVideo(searchValue);
     }
   }, [searchValue]);
 
-
   const getSpecificSearchedVideo = async (searchValue) => {
     SetVideos(null);
-
     const url = `https://youtube-v31.p.rapidapi.com/search?q=${searchValue}&part=snippet%2Cid&regionCode=IN&maxResults=100&order=date`;
-
     const data = await fetch(url, optionsRapidApiYoutubeV3);
     const jsonData = await data.json();
-
     SetVideos(jsonData.items);
   }
 
   const getVideos = async () => {
     SetVideos(null);
-
     const data = await fetch(YOUTUBE_VIDEOS_API, optionsRapidApiYoutubeV3);
     const jsonData = await data.json();
     if (jsonData && jsonData.items) {
@@ -54,10 +41,7 @@ const VideoContainer = () => {
       localStorage.setItem('APILIMIT',null);
     } else if (jsonData.message = "You have exceeded the DAILY quota for Request on your current plan, BASIC. Upgrade your plan at https://rapidapi.com/ytdlfree/api/youtube-v31") {
       SetVideos('error');
-     // alert('API request limit exceeded. Please upgrade your plan.');
-
       localStorage.setItem('APILIMIT','Exceeded');
-
     };
   }
 
@@ -83,8 +67,6 @@ const VideoContainer = () => {
             </button>
           })
         }
-
-
 
       </div>
 
